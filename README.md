@@ -3,457 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Exercise #2 · PHP + JS</title>
+    <title>Modern Dashboard UI</title>
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --border-color: #e2e8f0;
+            --accent-bg: #eff6ff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: #334155;
+            --accent-bg: #1e3a8a;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
+
         body {
-            background: linear-gradient(145deg, #f6f9fc 0%, #e9f0f5 100%);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
+            flex-direction: column;
         }
-        .card {
-            max-width: 820px;
-            width: 100%;
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border-radius: 2.5rem;
-            padding: 2.2rem 2.5rem;
-            box-shadow: 0 25px 45px -12px rgba(0,20,40,0.25),
-                        0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid rgba(255,255,255,0.6);
-            transition: all 0.2s ease;
-        }
-        h1 {
-            font-size: 2.1rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            color: #0b1e2e;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.2rem;
-        }
-        .subhead {
-            color: #2c4a6a;
-            font-weight: 450;
-            font-size: 1rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
-            margin-bottom: 1.8rem;
-            opacity: 0.8;
-        }
-        .form-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem 1rem;
-            background: rgba(255,255,255,0.5);
-            padding: 1.3rem 1.5rem;
-            border-radius: 2rem;
-            backdrop-filter: blur(2px);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-        .form-grid input {
-            flex: 1 0 140px;
-            padding: 0.7rem 1.2rem;
-            border: 1px solid #dbe3ed;
-            border-radius: 60px;
-            font-size: 0.95rem;
-            background: white;
-            transition: 0.2s;
-            outline: none;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-        }
-        .form-grid input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
-        }
-        .form-grid button {
-            background: #1f2a3f;
-            border: none;
-            color: white;
-            font-weight: 500;
-            padding: 0.7rem 1.8rem;
-            border-radius: 60px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: 0.15s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            letter-spacing: 0.3px;
-            box-shadow: 0 6px 12px -6px rgba(0,20,40,0.15);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .form-grid button:hover {
-            background: #2b3b57;
-            transform: scale(1.02);
-            box-shadow: 0 10px 18px -8px rgba(0,20,40,0.25);
-        }
-        .form-grid button:active {
-            transform: scale(0.97);
-        }
-        .stats {
+
+        /* Navigation Header */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
-            padding: 0 0.2rem 0.8rem 0.2rem;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .theme-btn:hover {
+            background-color: var(--accent-bg);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-sub);
+            font-size: 1.1rem;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card Component */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            background-color: var(--accent-bg);
+            color: var(--primary);
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            color: var(--text-sub);
             font-size: 0.9rem;
-            color: #1e3a5a;
-            font-weight: 450;
-            border-bottom: 1px dashed #cbdae8;
-            margin-bottom: 1.2rem;
         }
-        .stats span {
-            background: rgba(59,130,246,0.08);
-            padding: 0.2rem 1rem;
-            border-radius: 30px;
+
+        /* Interactive Section */
+        .action-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow);
         }
-        .user-list {
+
+        .input-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Simple List Output */
+        .item-list {
+            margin-top: 1rem;
+            list-style: none;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 0.2rem;
         }
-        .user-list::-webkit-scrollbar {
-            width: 5px;
-        }
-        .user-list::-webkit-scrollbar-track {
-            background: #e2eaf2;
-            border-radius: 10px;
-        }
-        .user-list::-webkit-scrollbar-thumb {
-            background: #8ba0bb;
-            border-radius: 10px;
-        }
-        .user-item {
-            background: white;
-            padding: 0.6rem 1.4rem 0.6rem 1.4rem;
-            border-radius: 60px;
+
+        .item-list li {
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.02);
-            border: 1px solid #e5edf5;
-            transition: 0.1s;
-            backdrop-filter: blur(2px);
-            font-size: 0.95rem;
-        }
-        .user-item:hover {
-            background: #fafdff;
-            border-color: #b8cee4;
-        }
-        .user-info {
-            display: flex;
-            gap: 1.2rem;
-            align-items: baseline;
-            flex-wrap: wrap;
-        }
-        .user-name {
-            font-weight: 550;
-            color: #0a1c2c;
-        }
-        .user-email {
-            color: #2b577a;
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-        .user-age {
-            background: #eef4fa;
-            padding: 0.1rem 0.8rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #1d3b59;
-        }
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #9eb3c9;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.15s;
-            padding: 0 0.2rem;
-            line-height: 1;
-        }
-        .delete-btn:hover {
-            color: #c0343a;
-            transform: scale(1.2);
-        }
-        .empty-message {
-            text-align: center;
-            padding: 2rem 0;
-            color: #6b86a2;
-            font-style: italic;
-            background: rgba(255,255,255,0.2);
-            border-radius: 60px;
-        }
-        .footer-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 1.2rem;
-            gap: 1rem;
-        }
-        .clear-btn {
-            background: transparent;
-            border: 1px solid #d0ddee;
-            padding: 0.3rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            color: #3f5b7a;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-        .clear-btn:hover {
-            background: #f0f5fc;
-            border-color: #a0b9d3;
-        }
-        @media (max-width: 550px) {
-            .card { padding: 1.5rem; }
-            .form-grid { flex-direction: column; }
-            .form-grid input { flex: 1; }
-            .user-info { flex-direction: column; gap: 0.2rem; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
 
-<div class="card" id="app">
-    <h1>
-        <span>👥</span> Group Exercise #2
-    </h1>
-    <div class="subhead">PHP + HTML · CSS · JavaScript — interactive user manager</div>
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">✨ AppUI Design</div>
+        <button class="theme-btn" id="themeToggle">🌙 Dark Mode</button>
+    </header>
 
-    <!-- form -->
-    <div class="form-grid">
-        <input type="text" id="userName" placeholder="Full name" value="Alex Rivera">
-        <input type="email" id="userEmail" placeholder="Email" value="alex@example.com">
-        <input type="number" id="userAge" placeholder="Age" value="28" min="1" max="120">
-        <button id="addUserBtn">➕ Add user</button>
-    </div>
+    <!-- Main Dashboard Content -->
+    <main>
+        <section class="hero">
+            <h1>User Dashboard</h1>
+            <p>A pure frontend responsive user interface sample.</p>
+        </section>
 
-    <!-- stats & list -->
-    <div class="stats">
-        <span id="userCountDisplay">👤 0 users</span>
-        <span id="averageAgeDisplay">📊 avg age: —</span>
-    </div>
+        <!-- Dynamic Cards Grid -->
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Total Users</span>
+                    <span class="badge">+12%</span>
+                </div>
+                <div class="card-value">1,248</div>
+                <div class="card-desc">Active users across all regions</div>
+            </div>
 
-    <div class="user-list" id="userListContainer">
-        <!-- dynamic list will be rendered here -->
-        <div class="empty-message">✨ No users yet · add someone!</div>
-    </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Revenue</span>
+                    <span class="badge">+8.5%</span>
+                </div>
+                <div class="card-value">₱45,200</div>
+                <div class="card-desc">Total earnings for this month</div>
+            </div>
 
-    <div class="footer-actions">
-        <button class="clear-btn" id="clearAllBtn">🗑️ Clear all</button>
-    </div>
-</div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Tasks Done</span>
+                    <span class="badge">94%</span>
+                </div>
+                <div class="card-value">18/20</div>
+                <div class="card-desc">Completed operational tasks</div>
+            </div>
+        </div>
 
-<script>
-    (function() {
-        "use strict";
+        <!-- Interactive Quick Action Box -->
+        <section class="action-box">
+            <h3>Quick Item Adder (UI Demo)</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-top: 0.25rem;">Type anything to preview adding list items dynamically.</p>
+            
+            <div class="input-group">
+                <input type="text" id="itemInput" placeholder="Enter item title...">
+                <button class="btn-primary" id="addBtn">Add Item</button>
+            </div>
 
-        // ---------- state ----------
-        let users = [];
+            <ul class="item-list" id="itemList">
+                <li><span>Sample Item 1</span> <span style="color: var(--text-sub); font-size: 0.8rem;">Active</span></li>
+            </ul>
+        </section>
+    </main>
 
-        // DOM refs
-        const nameInput = document.getElementById('userName');
-        const emailInput = document.getElementById('userEmail');
-        const ageInput = document.getElementById('userAge');
-        const addBtn = document.getElementById('addUserBtn');
-        const clearBtn = document.getElementById('clearAllBtn');
-        const listContainer = document.getElementById('userListContainer');
-        const userCountSpan = document.getElementById('userCountDisplay');
-        const avgAgeSpan = document.getElementById('averageAgeDisplay');
+    <!-- JavaScript Interactivity -->
+    <script>
+        // Dark Mode Toggle Logic
+        const themeBtn = document.getElementById('themeToggle');
+        let isDark = false;
 
-        // ---------- helpers ----------
-        function formatStats() {
-            const count = users.length;
-            userCountSpan.textContent = `👤 ${count} user${count !== 1 ? 's' : ''}`;
+        themeBtn.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        });
 
-            if (count === 0) {
-                avgAgeSpan.textContent = '📊 avg age: —';
-                return;
+        // Dynamic List Item Addition
+        const addBtn = document.getElementById('addBtn');
+        const itemInput = document.getElementById('itemInput');
+        const itemList = document.getElementById('itemList');
+
+        addBtn.addEventListener('click', () => {
+            const text = itemInput.value.trim();
+            if (text !== '') {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${text}</span> <span style="color: var(--text-sub); font-size: 0.8rem;">Just added</span>`;
+                itemList.appendChild(li);
+                itemInput.value = '';
             }
-            const total = users.reduce((sum, u) => sum + u.age, 0);
-            const avg = (total / count).toFixed(1);
-            avgAgeSpan.textContent = `📊 avg age: ${avg}`;
-        }
-
-        // render the user list
-        function render() {
-            if (users.length === 0) {
-                listContainer.innerHTML = `<div class="empty-message">✨ No users yet · add someone!</div>`;
-                formatStats();
-                return;
-            }
-
-            let html = '';
-            users.forEach((user, index) => {
-                const safeName = escapeHtml(user.name);
-                const safeEmail = escapeHtml(user.email);
-                html += `
-                    <div class="user-item" data-index="${index}">
-                        <div class="user-info">
-                            <span class="user-name">${safeName}</span>
-                            <span class="user-email">${safeEmail}</span>
-                            <span class="user-age">${user.age} yrs</span>
-                        </div>
-                        <button class="delete-btn" data-index="${index}" title="Remove user">✕</button>
-                    </div>
-                `;
-            });
-            listContainer.innerHTML = html;
-
-            // attach delete events to each delete button
-            listContainer.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const idx = parseInt(this.getAttribute('data-index'), 10);
-                    if (!isNaN(idx) && idx >= 0 && idx < users.length) {
-                        users.splice(idx, 1);
-                        render();
-                    }
-                });
-            });
-
-            formatStats();
-        }
-
-        // simple escape (prevent XSS via innerHTML)
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
-        }
-
-        // ---------- add user logic ----------
-        function addUser() {
-            const name = nameInput.value.trim();
-            const email = emailInput.value.trim();
-            const ageRaw = parseInt(ageInput.value, 10);
-
-            // validation
-            if (name === '') {
-                alert('Please enter a name.');
-                nameInput.focus();
-                return false;
-            }
-            if (email === '' || !email.includes('@') || !email.includes('.')) {
-                alert('Please enter a valid email address.');
-                emailInput.focus();
-                return false;
-            }
-            if (isNaN(ageRaw) || ageRaw < 1 || ageRaw > 120) {
-                alert('Please enter a valid age (1–120).');
-                ageInput.focus();
-                return false;
-            }
-
-            // push new user
-            users.push({
-                name: name,
-                email: email,
-                age: ageRaw
-            });
-
-            // clear inputs (keep placeholder)
-            nameInput.value = '';
-            emailInput.value = '';
-            ageInput.value = '';
-
-            // refocus
-            nameInput.focus();
-
-            render();
-            return true;
-        }
-
-        // ---------- clear all ----------
-        function clearAll() {
-            if (users.length === 0) return;
-            if (confirm('Delete all users?')) {
-                users = [];
-                render();
-            }
-        }
-
-        // ---------- init / event binding ----------
-        function init() {
-            // pre-populate with demo users (so it's not empty)
-            users = [
-                { name: 'Aisha Chen', email: 'aisha.c@design.co', age: 31 },
-                { name: 'Marcus Johansson', email: 'marcus.j@tech.io', age: 27 },
-                { name: 'Priya Sharma', email: 'priya.s@global.org', age: 34 }
-            ];
-            render();
-
-            // add button
-            addBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                addUser();
-            });
-
-            // enter key on any input triggers add
-            const inputs = [nameInput, emailInput, ageInput];
-            inputs.forEach(inp => {
-                inp.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') {
-                        e.preventDefault();
-                        addUser();
-                    }
-                });
-            });
-
-            // clear all
-            clearBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                clearAll();
-            });
-
-            // extra: focus name on load
-            nameInput.focus();
-        }
-
-        // start when DOM ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-
-    })();
-</script>
-
-<!-- PHP backend snippet: simple message & server time (visible only when .php served) -->
-<?php
-    // This is a PHP block that echoes a small server-side note.
-    // It does not interfere with the frontend app.
-    // It demonstrates PHP integration within the same page.
-    $serverTime = date('H:i:s');
-    // We'll inject a hidden comment or small indicator using a style.
-    // But we keep it unobtrusive.
-?>
-<!-- PHP server info (injected) -->
-<div style="margin-top: 1.2rem; font-size: 0.7rem; color: #6f8aa8; text-align: right; border-top: 1px solid rgba(0,0,0,0.03); padding-top: 0.8rem; opacity: 0.6; display: flex; justify-content: space-between;">
-    <span>⚙️ PHP 8 · served at <?php echo htmlspecialchars($serverTime); ?></span>
-    <span>🧩 group exercise #2</span>
-</div>
-
+        });
+    </script>
 </body>
 </html>
