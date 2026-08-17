@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Dashboard UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">✨ AppUI Design</div>
+        <button class="theme-btn" id="themeToggle">🌙 Dark Mode</button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>User Dashboard</h1>
+            <p>A pure frontend responsive user interface sample.</p>
+        </section>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Total Users</span>
+                    <span class="badge">+12%</span>
+                </div>
+                <div class="card-value">1,248</div>
+                <div class="card-desc">Active users across all regions</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Revenue</span>
+                    <span class="badge">+8.5%</span>
+                </div>
+                <div class="card-value">₱45,200</div>
+                <div class="card-desc">Total earnings for this month</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Tasks Done</span>
+                    <span class="badge">94%</span>
+                </div>
+                <div class="card-value">18/20</div>
+                <div class="card-desc">Completed operational tasks</div>
+            </div>
+        </div>
+
+        <section class="action-box">
+            <h3>Quick Item Adder (UI Demo)</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-top: 0.25rem;">Type anything to preview adding list items dynamically.</p>
+            
+            <div class="input-group">
+                <input type="text" id="itemInput" placeholder="Enter item title...">
+                <button class="btn-primary" id="addBtn">Add Item</button>
+            </div>
+
+            <ul class="item-list" id="itemList">
+                <li><span>Sample Item 1</span> <span style="color: var(--text-sub); font-size: 0.8rem;">Active</span></li>
+            </ul>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
